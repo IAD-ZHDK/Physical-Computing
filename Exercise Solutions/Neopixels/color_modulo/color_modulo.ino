@@ -8,7 +8,7 @@
 #endif
 
 // Which pin on the Arduino is connected to the NeoPixels?
-#define PIN        8 
+#define PIN        2 
 
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS 8 
