@@ -1,3 +1,3 @@
 # Physical-Computing
-Physical Computing IAD 3rd Semester @ZHdK
+IAD 3rd Semester @ZHdK
 
