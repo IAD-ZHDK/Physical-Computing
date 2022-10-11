@@ -30,6 +30,26 @@ void loop() {
     }
 }
 
+
+// Function for splitting incoming array values
+
+//void split(String inputString, int returnData[], int numOfValues)
+//{
+//  int index = 0;
+//  int lastPos = 0;
+//
+//  for (int i = 0; i < inputString.length(); i++)
+//  {
+//    if (inputString.charAt(i) == ',' && index < numOfValues)
+//    {
+//      String tempStr = inputString.substring(lastPos, i);
+//      Serial.println(tempStr);
+//      returnData[index] = tempStr.toInt();
+//      index++;
+//      lastPos = i + 1;
+//    }
+//  }
+
 //============
 // Code from https://forum.arduino.cc/t/serial-input-basics-updated/382007
 
