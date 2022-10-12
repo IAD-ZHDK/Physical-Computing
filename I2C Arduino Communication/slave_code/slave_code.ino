@@ -17,19 +17,21 @@ void setup(){
   recI2C = 255;
   time_start = millis();
   ledVal = 0;
-  pinMode(13, OUTPUT);        // set pin 13 mode to output
+  pinMode(10, OUTPUT);        // set pin 13 mode to output
+  Serial.begin(9600);
 }
 
 void loop(){
 
   potVal = analogRead(A0); // read analog value at pin A0 (potentiometer voltage)
-  
+  ledVal = (int)(recI2C/255);
+  Serial.println(ledVal);
   // blink logic code
-        if((millis() - time_start) > (1000 * (float)(recI2C/255))) {
-    ledVal = !ledVal;
-    time_start = millis();
-  }
-  digitalWrite(13, ledVal);
+//        if((millis() - time_start) > (1000 * (float)(recI2C/255))) {
+//    ledVal = !ledVal;
+//    time_start = millis();
+//  }
+  digitalWrite(10, ledVal);
 }
 
 //received data handler function

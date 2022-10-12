@@ -1,10 +1,10 @@
-/* jshint esversion: 8 */
 let msg;
 let serialOptions = { baudRate: 9600 };
 let serial;
-let clicked = false;
 let bMsg = "OFF";
-let fCol = 255;
+let input;
+let buttonConnect,buttonDisconnect,buttonOnOff, buttonSend;
+let clicked = false;
 
 function setup() {
   createCanvas(500, 500);
@@ -20,6 +20,24 @@ function setup() {
   //display messages and errors
   msg = createP('');
   
+  buttonConnect = createButton('Connect Port');
+  buttonConnect.position(20,20);
+  buttonConnect.mousePressed(connectPort);
+  
+  buttonDisconnect = createButton('Disonnect Port');
+  buttonDisconnect.position(150,20);
+  buttonDisconnect.mousePressed(disconnectPort);
+ 
+  input = createInput("255,32,80,111,0");
+  input.position(20, 65);
+  buttonSend = createButton('Send2Arduino');
+  buttonSend.position(input.x + input.width, 65);
+  buttonSend.mousePressed(serialWriteTextData);
+  
+  buttonOnOff = createButton('Switch');
+  buttonOnOff.position(20,100);
+  buttonOnOff.mousePressed(onOff);
+  
 }
 
 async function connectPort() {
@@ -30,8 +48,13 @@ async function connectPort() {
   }
 }
 
-function draw() {
+async function disconnectPort() {
+  if (serial.isOpen()) {
+    serial.close();
+  }
+}
 
+function draw() {
 }
 
 // Callback function by serial.js when there is an error on web serial
@@ -61,11 +84,38 @@ function onSerialDataReceived(eventSender, newData) {
   msg.html("onSerialDataReceived: " + newData);
 }
  
-async function serialWriteTextData() {
-  const data = ["104, 0, 222, 15, 0, '\n'"]; 
-  if (serial.isOpen()) {
-    console.log("Writing to serial: ", data);
-    serial.writeLine(data);
+function serialWriteTextData() {
+  const inputData = input.value();
+
+  let splitData = split(inputData, ',');
+  console.log(splitData.length);
+  
+  if (splitData.length > 5) {
+     splitData = splitData.splice(0,4); 
+  }
+  //'\n' is used as "end of line" character
+  // it is imporant to add at the end of array so that Arduino knows that the received message is finished
+  splitData.push("'\n'");
+
+  if (serial.isOpen() ) {
+    console.log("Writing array to serial: ", splitData);
+    serial.writeLine(splitData);
+  }
+}
+
+function onOff(){
+   if (serial.isOpen() ) {
+     
+     if(clicked == true){
+       clicked = false;
+       switcher = ["off", '\n'];
+     }else{
+       clicked = true;
+       switcher = ["on", '\n'];
+     }
+   
+    console.log("Writing switch to serial: ", switcher);
+    serial.writeLine(switcher);
   }
 }
 

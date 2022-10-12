@@ -1,47 +1,19 @@
 
-#define INPUT_PIN A0
-#define BUTTON_PIN 2
-const int MAX_ANALOG_INPUT = 1023;
-const int DELAY_MS = 5;
-
-int prevValue = -1;
-int lastButtonState;
-int currentButtonState;
-int state = 0;
-float sizeFrac;
+#define OUTPUT_PIN 11
+const int DELAY_MS = 200;
+int inputVal; 
 
 void setup() {
-  Serial.begin(9600); // set baud rate to 9600
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  currentButtonState = digitalRead(BUTTON_PIN);
+  Serial.begin(9600);
+  pinMode(OUTPUT_PIN, OUTPUT);
 }
 
 void loop() {
-
-  // Get the new analog value
-  int currentVal = analogRead(INPUT_PIN);
-  float prevSizeFrac = sizeFrac;
-
-  // If the analog value has changed, assign it to sizeFrac
-  if (prevValue != currentVal) {
-    sizeFrac = currentVal / (float) MAX_ANALOG_INPUT;
+  // Check to see if there is any incoming serial data
+  if (Serial.available() > 0) {
+    // read string until the endo of the line
+    String rcvdSerialData = Serial.readStringUntil('\n');
+    analogWrite(OUTPUT_PIN, rcvdSerialData.toInt());
+    delay(DELAY_MS);
   }
-
-  // Get button state
-  currentButtonState = digitalRead(BUTTON_PIN); // read new state
-  int prevState = state;
-
-  if (lastButtonState == HIGH && currentButtonState != lastButtonState) {
-    state = 1 - state;
-  }
-
-  if (prevSizeFrac != sizeFrac || prevState != state) {
-    Serial.print(sizeFrac, 4); // 4 decimal point precision
-    Serial.print(",");
-    Serial.println(state);
-  }
-
-  prevValue = currentVal;
-  lastButtonState = currentButtonState;
-
 }

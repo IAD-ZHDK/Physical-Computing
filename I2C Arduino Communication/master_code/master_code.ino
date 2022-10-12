@@ -15,7 +15,8 @@ void setup(){
   time_start = millis();
   ledVal = 0;
   
-  pinMode(13, OUTPUT);    // set pin 13 as an output
+  pinMode(10, OUTPUT);    // set pin 13 as an output
+  Serial.begin(9600);
 }
 
 void loop(){
@@ -33,9 +34,12 @@ void loop(){
   }
   
   // blink logic code
-  if((millis() - time_start) > (1000 * (float)(recI2C/255))) {
-    ledVal = !ledVal;
-    time_start = millis();
-  }
-  digitalWrite(13, ledVal);
+//  if((millis() - time_start) > (1000 * (float)(recI2C/255))) {
+//    ledVal = !ledVal;
+//    time_start = millis();
+//  }
+//  
+  ledVal = (int)(recI2C/255); //normalizing the incoming data between 0 and 1
+  digitalWrite(10, ledVal);
+  Serial.println(ledVal);
 }

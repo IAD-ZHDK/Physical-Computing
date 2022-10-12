@@ -4,29 +4,35 @@
 
 int incomingValues[NUM_VALUES];
 const int DELAY_MS = 100;
+int inputVal; 
 
 void setup() {
   Serial.begin(9600);
   pinMode(OUTPUT_PIN, OUTPUT);
 }
 
-
-
 void loop() {
   // Check to see if there is any incoming serial data
   if (Serial.available() > 0) {
-
     // read string until the endo of the line
     String rcvdSerialData = Serial.readStringUntil('\n');
-    Serial.println(rcvdSerialData);
-    split(rcvdSerialData, incomingValues, NUM_VALUES);
-    for (int j = 0; j < NUM_VALUES; j++) {
-      analogWrite(OUTPUT_PIN, incomingValues[j]);
-      delay(DELAY_MS);
+    if (rcvdSerialData.startsWith("on")) {
+      inputVal = 255;
+    } else if (rcvdSerialData.startsWith("off")) {
+      inputVal = 0;
+    } else {
+      split(rcvdSerialData, incomingValues, NUM_VALUES);
+      for (int j = 0; j < NUM_VALUES; j++) {
+        analogWrite(OUTPUT_PIN, incomingValues[j]);
+        delay(DELAY_MS);
+      }
     }
   }
-
+  Serial.println(inputVal);
+  analogWrite(OUTPUT_PIN, inputVal);
 }
+
+
 
 void split(String inputString, int returnData[], int numOfValues)
 {

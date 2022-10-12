@@ -8,20 +8,15 @@
   <script language="javascript" type="text/javascript" src="libraries/serial.js"></script>
   <script language="javascript" type="text/javascript" src="example2_p5.js"></script>
   <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/gh/makeabilitylab/p5js/_libraries/serial.js"></script>
-  <script> window.addEventListener('load', (event) => {
-   serial.autoConnectAndOpenPreviouslyApprovedPort(serialOptions);
-   });
-   </script>
-</script>
 
+  <script src="https://cdn.jsdelivr.net/gh/makeabilitylab/p5js/_libraries/serial.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js"></script>
+  
+  <!-- This line removes any default padding and style.
+       You might only need one of these values set. -->
+  <style> body { padding: 0; margin: 0; } </style>
 </head>
 
 <body>
-
-
-<!-- Connect to the port -->
-<button id="connect-button" class="simple" onclick="connectPort()">Connect Port</button>
 </body>
 </html>
