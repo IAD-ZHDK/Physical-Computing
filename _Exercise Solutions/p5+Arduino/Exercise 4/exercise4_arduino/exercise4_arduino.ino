@@ -1,9 +1,10 @@
 
 #define INPUT_PIN A0
 #define BUTTON_PIN 13
-const int MAX_ANALOG_INPUT = 1023;
-const int DELAY_MS = 5;
-int MAX_COUNT = 3;
+
+#define DELAY_MS 50;
+const int maxCount = 3;
+const int maxInput = 1023;
 
 int prevValue = -1;
 int lastButtonState;
@@ -27,7 +28,7 @@ void loop() {
 
   // If the analog value has changed, assign it to sizeFrac
   if (prevValue != currentVal) {
-    sizeFrac = currentVal / (float) MAX_ANALOG_INPUT;
+    sizeFrac = currentVal / (float) maxInput;
   }
 
   // Get button state
@@ -36,9 +37,9 @@ void loop() {
 
   //check the button state and increase clicks counter
   if (lastButtonState == LOW && currentButtonState != lastButtonState) {
-     state =  clickCount;
+     state = clickCount;
      clickCount++;
-    if(state >= MAX_COUNT){
+    if(state >= maxCount){
       clickCount = 0;
     }
     

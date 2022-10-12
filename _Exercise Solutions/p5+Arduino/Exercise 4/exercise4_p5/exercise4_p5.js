@@ -3,8 +3,7 @@
 let shapeFraction = 0; // tracks the new shape fraction off serial
 let shape = 0; // tracks the new shape
 let serial; // the Serial object
-let serialOptions = { baudRate:
-9600 };
+let serialOptions = { baudRate: 9600 };
 let buttonConnect, buttonDisconnect;
 
 
@@ -102,9 +101,9 @@ function onSerialDataReceived(eventSender, newData) {
     // if comma is present in the string
     if (indexOfComma != -1) {
       let strDiameter = newData.substring(0, indexOfComma).trim();
-      let strOutline = newData.substring(indexOfComma + 1, newData.length).trim();
+      let strShape = newData.substring(indexOfComma + 1, newData.length).trim();
       shapeFraction = parseFloat(strDiameter);
-      shape = parseInt(strOutline);
+      shape = parseInt(strShape);
     }
   }
 
@@ -112,9 +111,9 @@ function onSerialDataReceived(eventSender, newData) {
   //if (newData.length != 0) {
   //  var values = newData.split(',');
   //  let strDiameter = values[0];
-  //  let strOutline = values[values.length - 1];
+  //  let strShape = values[values.length - 1];
   //  shapeFraction = parseFloat(strDiameter);
-  //  shape = parseInt(strOutline);
+  //  shape = parseInt(strShape);
 
   //}
 }
