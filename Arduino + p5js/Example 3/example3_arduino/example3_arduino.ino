@@ -34,9 +34,9 @@ void loop() {
    // read the sensor:
   sensorValue = analogRead(sensorPin);
   // apply the calibration to the sensor reading
-  sensorValue = map(sensorValue, sensorMin, sensorMax, 0, 1);
+  sensorValue = map(sensorValue, sensorMin, sensorMax, 0, 400);
   // in case the sensor value is outside the range seen during calibration
-  sensorValue = constrain(sensorValue, 0, 1);
+  sensorValue = constrain(sensorValue, 0, 400);
   delay(DELAY_MS);
   Serial.println(sensorValue);  
  

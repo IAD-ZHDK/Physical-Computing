@@ -5,6 +5,8 @@ let serialOptions = { baudRate:9600 };
 let col;
 let dn = "DAY";
 let buttonConnect,buttonDisconnect;
+let potval = 0;
+
 
 function setup() {
   createCanvas(400, 400);
@@ -49,7 +51,9 @@ async function disconnectPort() {
 function draw() {
   background(200);
   fill(col);
-  text(dn, width/2, height/2);
+  //text(dn, width/2, height/2);
+  
+  circle(potVal, height/2, 100);
   
 }
 
@@ -66,16 +70,5 @@ function onSerialConnectionClosed(eventSender) {
 }
 
 function onSerialDataReceived(eventSender, newData) {
-  let potVal = int(newData);
-  msg.html("onSerialDataReceived: " + potVal);
-  console.log("Received data from Arduino: " +potVal);
-  
-  if(potVal==1) {
-    col = color(255,250,205);
-    dn = "DAY";
-  } else {
-    col = color(0,0,200);
-    dn = "NIGHT";
-  }
-  
+  potVal = int(newData)
 }

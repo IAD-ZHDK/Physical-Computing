@@ -12,7 +12,7 @@ void setup() {
 }
 
 void loop() {
-
+  Serial.println(""); 
   // Get the new analog value
   int currentVal = analogRead(INPUT_PIN);
   float prevSizeFrac = sizeFrac;

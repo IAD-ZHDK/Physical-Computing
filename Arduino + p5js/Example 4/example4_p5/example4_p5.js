@@ -71,7 +71,7 @@ function onSerialConnectionClosed(eventSender) {
 
 function onSerialDataReceived(eventSender, newData) {
   msg.html("onSerialDataReceived: " + newData);
- 
+  shapeFraction = parseFloat(newData); // if int use (int)newData or newData.toInt()
   // split incoming String by commma
   if (newData.length != 0) {
     
