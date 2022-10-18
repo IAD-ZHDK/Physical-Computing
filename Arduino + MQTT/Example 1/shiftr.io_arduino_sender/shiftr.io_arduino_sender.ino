@@ -25,7 +25,9 @@ void setup() {
   Serial.println("You're connected to the network");
 
   //start mqtt
-  client.begin("paulinahs22.cloud.shiftr.io", net);
+  //the first argument is the name of your instance on shiftr
+  //the second argument should be set to net
+  client.begin("physical-computing-zhdk.cloud.shiftr.io", net);
   connect();
 }
 
@@ -47,6 +49,11 @@ void loop() {
     }else {
       ledBlink = 1;
     }
+
+    //here we need to make sure that we publish (send) a message to a topic
+    //in this case it's called "ledBlink". You need to make sure that your
+    //topic always starts with a "/"
+    //the second argument is your message (payload) which needs to be send out as string
     client.publish("/ledBlink", String(ledBlink));
   }
 
@@ -58,12 +65,14 @@ void connect() {
     Serial.print("No Wifi connection...");
     delay(1000);
   }
-
-  while (!client.connect("sender", "paulinahs22", "qm8xPw3TFvynq7RG")) {
+//first argument is your ID
+  //second argument is the username of your shiftr.io instance as found in token settings
+  //third argument is your secret token which can be set in your instance settings
+  while (!client.connect("sender", "physical-computing-zhdk", "QO1d1kxcIhqD2pi2")) {
     Serial.print(".");
     delay(1000);
   }
 
   Serial.println("\nconnected to MQTT!");
-  client.subscribe("ledBlink");
+  
 }
