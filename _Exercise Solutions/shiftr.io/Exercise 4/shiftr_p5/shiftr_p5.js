@@ -1,11 +1,13 @@
 
 // MQTT client details:
+//change this so it fits your instance
 let broker = {
   hostname: 'physical-computing-zhdk.cloud.shiftr.io',
   port: 443
  };
 
 // client credentials:
+//change this so it fits your instance
 let creds = {
   clientID: 'p5',
   userName: 'physical-computing-zhdk',
@@ -14,14 +16,14 @@ let creds = {
 
 // MQTT client:
 let client;
-let colorPicker;
 
-let topicColor = "color";
- 
+// topics you want to subscribe to when you connect
+let topicSlider = 'sliderValue';
+let mySlider;
+
 function setup() {
-  createCanvas(100, 100);
-  colorPicker = createColorPicker('#ed225d');
-  colorPicker.position(0, height/2);
+  createCanvas(400, 400);
+  background(255);
   
   // Create an MQTT client:
   client = new Paho.MQTT.Client(broker.hostname, broker.port, creds.clientID);
@@ -45,17 +47,20 @@ function setup() {
   // create a div for the response:
   remoteMsg = createP(" ");
   remoteMsg.position(20, 560);
+
+  mySlider = createSlider(0,255,0,1);
+  mySlider.position(200,200);
 }
 
 function draw() {
-  background(255);
-  noStroke();
-  sendColor(colorPicker.color());
+  sendMqttMessage(mySlider.value(), topicSlider);
 }
 
 // called when the client connects
 function onConnect() {
   localMsg.html('Client is connected');
+  client.subscribe(topicXpos);
+  client.subscribe(topicYpos);
 }
 
 // called when the client loses its connection
@@ -69,7 +74,7 @@ function onConnectionLost(response) {
 // called when a message arrives
 function onMessageArrived(message) {
   let receivedMessage = message.payloadString;
-  console.log(receivedMessage);
+  remoteMsg.html("Received:" + receivedMessage);
    
 }
 
@@ -86,15 +91,4 @@ function sendMqttMessage(msg, tpc) {
     // print what you sent:
     localMsg.html('I sent: ' + message.payloadString);
   }
-}
-
-function sendColor(c) {
-  let r = c.levels[0];
-  let g = c.levels[1];
-  let b = c.levels[2];
-  
-  let rgb = String(r) + "," + String(g) + "-" + String(b);
-  sendMqttMessage(String(rgb), topicColor);
-  remoteMsg.html("R: " + r + ", G: " + g + ", B: " + b);
-   
 }
